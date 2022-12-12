@@ -8,8 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -18,6 +23,9 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(exclude = "order")
 @ToString(exclude = "order")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LineItem {
 	
 	@Id
@@ -29,5 +37,6 @@ public class LineItem {
 	
 	@ManyToOne
 	@JoinColumn(name="order_id", nullable = false)
+	@JsonBackReference
 	private Order order;
 }
