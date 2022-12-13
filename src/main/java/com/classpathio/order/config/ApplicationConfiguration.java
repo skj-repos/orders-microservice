@@ -11,7 +11,7 @@ public class ApplicationConfiguration {
 		return WebClient
 				.builder()
 				//svc name should be configured
-				.baseUrl("http://inventory-svc")
+				.baseUrl("http://localhost:9222")
 				.build();
 	}
 }

@@ -20,7 +20,7 @@ public class OrderService {
 	private final OrderJpaRepository orderRepository;
 	private final WebClient webClient;
 	
-	@CircuitBreaker(name="inventoryservice")
+	@CircuitBreaker(name="inventoryservice", fallbackMethod = "fallback")
 	public Order saveOrder(Order order) {
 		Order savedOrder = this.orderRepository.save(order);
 		//make the rest call and update the inventory
@@ -31,6 +31,11 @@ public class OrderService {
 								.block();
 		log.info("Response from inventory microservice :: {}", orderCount);
 		return savedOrder;
+	}
+	
+	private Order fallback(Throwable exception) {
+		log.error("Exception while making a POST request :: {}", exception.getMessage());
+		return Order.builder().build();
 	}
 	
 	public Set<Order> fetchOrders(){
