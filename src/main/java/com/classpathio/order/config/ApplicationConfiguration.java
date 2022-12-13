@@ -10,6 +10,7 @@ public class ApplicationConfiguration {
 	public WebClient webClient() {
 		return WebClient
 				.builder()
+				//svc name should be configured
 				.baseUrl("http://inventory-svc")
 				.build();
 	}
