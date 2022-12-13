@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.classpathio.order.model.Order;
 import com.classpathio.order.repository.OrderJpaRepository;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,7 @@ public class OrderService {
 	private final OrderJpaRepository orderRepository;
 	private final WebClient webClient;
 	
+	@CircuitBreaker(name="inventoryservice")
 	public Order saveOrder(Order order) {
 		Order savedOrder = this.orderRepository.save(order);
 		//make the rest call and update the inventory
