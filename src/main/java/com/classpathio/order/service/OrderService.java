@@ -9,6 +9,7 @@ import com.classpathio.order.model.Order;
 import com.classpathio.order.repository.OrderJpaRepository;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,8 +22,10 @@ public class OrderService {
 	private final WebClient webClient;
 	
 	@CircuitBreaker(name="inventoryservice", fallbackMethod = "fallback")
+	@Retry(name="retryConfig")
 	public Order saveOrder(Order order) {
 		Order savedOrder = this.orderRepository.save(order);
+		log.info("Calling the inventory microservice :: ");
 		//make the rest call and update the inventory
 		long orderCount = this.webClient
 								.post()

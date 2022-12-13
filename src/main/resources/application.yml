@@ -47,5 +47,22 @@ resilience4j:
           - org.springframework.web.client.ResourceAccessException
           - java.lang.IllegalStateException
           - org.springframework.web.reactive.function.client.WebClientRequestException
+
+  retry:
+    retryAspectOrder: 2
+    instances:
+      retryConfig:
+        maxAttempts: 2
+        waitDuration: 2s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 1
+        retryExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - java.net.ConnectException
+          - org.springframework.web.reactive.function.client.WebClientRequestException 
       
-        
+  
+    
