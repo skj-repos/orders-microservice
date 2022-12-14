@@ -29,7 +29,6 @@ public class StateRestController {
 				currentLivenessState == LivenessState.CORRECT ? LivenessState.BROKEN: LivenessState.CORRECT;
 		
 		String state = updatedLivenessState == LivenessState.CORRECT ? "System is functioning": "Application is not functioning";
-		
 		AvailabilityChangeEvent.publish(applicationEvent, state, updatedLivenessState);
 		
 		Map<String, Object> responseMap = new LinkedHashMap<>();

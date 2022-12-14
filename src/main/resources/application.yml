@@ -14,7 +14,19 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-7858070.okta.com/oauth2/default
+          jwk-set-uri: https://dev-7858070.okta.com/oauth2/default/v1/keys
         
+info:
+  app:
+    name: orders-api
+    description: API for managing orders
+    version: 1.0.0
+            
 management:
   endpoint:
     health:
@@ -24,7 +36,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*" 
+        include: "*"
+  info:
+    env:
+      enabled: true     
   health:
     circuitbreakers:
       enabled: true
@@ -62,7 +77,9 @@ resilience4j:
           - java.io.IOException
           - java.util.concurrent.TimeoutException
           - java.net.ConnectException
-          - org.springframework.web.reactive.function.client.WebClientRequestException 
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+           
+           
       
   
     

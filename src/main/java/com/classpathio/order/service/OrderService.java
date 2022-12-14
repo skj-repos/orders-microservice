@@ -2,6 +2,9 @@ package com.classpathio.order.service;
 
 import java.util.Set;
 
+import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.ReadinessState;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,6 +23,7 @@ public class OrderService {
 	
 	private final OrderJpaRepository orderRepository;
 	private final WebClient webClient;
+	private final ApplicationEventPublisher applicationEvent;
 	
 	@CircuitBreaker(name="inventoryservice", fallbackMethod = "fallback")
 	@Retry(name="retryConfig")
@@ -38,6 +42,7 @@ public class OrderService {
 	
 	private Order fallback(Throwable exception) {
 		log.error("Exception while making a POST request :: {}", exception.getMessage());
+		AvailabilityChangeEvent.publish(applicationEvent, "inventory-service is not operational", ReadinessState.REFUSING_TRAFFIC);
 		return Order.builder().build();
 	}
 	
