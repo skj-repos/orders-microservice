@@ -20,7 +20,17 @@ spring:
         jwt:
           issuer-uri: https://dev-7858070.okta.com/oauth2/default
           jwk-set-uri: https://dev-7858070.okta.com/oauth2/default/v1/keys
-        
+  cloud:
+    function:
+      definition: producer
+    stream:
+      kafka:
+        binder:
+          brokers: 13.233.122.200:9092
+      bindings:
+        producer-out-0:
+          destination: orders-topic
+          
 info:
   app:
     name: orders-api
