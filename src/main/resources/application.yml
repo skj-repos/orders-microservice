@@ -14,22 +14,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-7858070.okta.com/oauth2/default
-          jwk-set-uri: https://dev-7858070.okta.com/oauth2/default/v1/keys
-  cloud:
-    function:
-      definition: producer
-    stream:
-      kafka:
-        binder:
-          brokers: 13.233.122.200:9092
-      bindings:
-        producer-out-0:
-          destination: orders-topic
+  
           
 info:
   app:
@@ -51,45 +36,5 @@ management:
     env:
       enabled: true     
   health:
-    circuitbreakers:
-      enabled: true
     probes:
       enabled: true
-
-resilience4j:
-  circuitbreaker:
-    circuitBreakerAspectOrder: 1
-    instances:
-      inventoryservice:
-        register-health-indicator: true
-        ring-buffer-size-in-closed-state: 5
-        ring-buffer-size-in-half-open-state: 3
-        wait-duration-in-open-state: 30s
-        failure-rate-threshold: 50
-        record-exceptions:
-          - java.io.IOException
-          - java.util.concurrent.TimeoutException
-          - org.springframework.web.client.ResourceAccessException
-          - java.lang.IllegalStateException
-          - org.springframework.web.reactive.function.client.WebClientRequestException
-
-  retry:
-    retryAspectOrder: 2
-    instances:
-      retryConfig:
-        maxAttempts: 2
-        waitDuration: 2s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 1
-        retryExceptions:
-          - org.springframework.web.client.HttpServerErrorException
-          - java.io.IOException
-          - java.io.IOException
-          - java.util.concurrent.TimeoutException
-          - java.net.ConnectException
-          - org.springframework.web.reactive.function.client.WebClientRequestException
-           
-           
-      
-  
-    
